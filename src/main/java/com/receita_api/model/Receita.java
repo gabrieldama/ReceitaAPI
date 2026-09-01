@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Receita {
 
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Receita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,13 +31,12 @@ public class Receita {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "receita")
-    private List<Ingrediente> ingredientes;
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL)
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receita")
-    private List<ModoPreparo> modoPreparo;
-
-
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL)
+    @OrderColumn(name = "ordem")
+    private List<ModoPreparo> modoPreparo = new ArrayList<>();
 
 
 }

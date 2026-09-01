@@ -13,26 +13,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/receitas")
 public class ReceitaController {
-
     private final ReceitaService receitaService;
+
 
     public ReceitaController(ReceitaService receitaService) {
         this.receitaService = receitaService;
     }
 
     @GetMapping
-    public List<ReceitaResponseDTO> listar() {
+    public List<ReceitaResponseDTO> listar(){
         return receitaService.listar();
     }
 
     @PostMapping
-    public ResponseEntity<ReceitaResponseDTO> criar(@RequestBody ReceitaRequestDTO receita) {
-        ReceitaResponseDTO receitaSalva = receitaService.criar(receita);
-        return ResponseEntity.status(HttpStatus.CREATED).body(receitaSalva);
+    public ResponseEntity<ReceitaResponseDTO> criar(@RequestBody ReceitaRequestDTO receita){
+        return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.criar(receita));
     }
 
-    @GetMapping("/{id}")
-    public ReceitaResponseDTO buscarPorId(@PathVariable Long id) {
+    @GetMapping("{id}")
+    public ReceitaResponseDTO buscarPorId(@PathVariable Long id){
         return receitaService.buscarPorId(id);
     }
 }

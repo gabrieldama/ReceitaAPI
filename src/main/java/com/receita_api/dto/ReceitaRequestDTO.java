@@ -7,13 +7,10 @@ import java.util.List;
 public record ReceitaRequestDTO(
         String nome,
         String descricao,
-        Integer quantidade,
+        Integer tempoPreparo,
         Integer porcoes,
         Categoria categoria,
-        List<IngredienteDTO> ingredientes,
+        List<IngredienteDTO> ingrediente,
         List<String> modoPreparo
 ) {
-    public Integer tempoPreparo() {
-        return null;
-    }
 }

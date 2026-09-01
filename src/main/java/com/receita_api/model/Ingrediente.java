@@ -1,5 +1,6 @@
 package com.receita_api.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +8,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Ingrediente {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,8 +18,7 @@ public class Ingrediente {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private String quantidade; // String porque o valor pode ser 1/2, por exemplo.
+    private String quantidade;
 
     @ManyToOne
     @JoinColumn(nullable = false)

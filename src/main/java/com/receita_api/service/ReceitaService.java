@@ -21,52 +21,43 @@ public class ReceitaService {
         this.receitaRepository = receitaRepository;
     }
 
-    public ReceitaResponseDTO criar(ReceitaRequestDTO dto) {
+    public ReceitaResponseDTO criar (ReceitaRequestDTO dto){
         Receita novaReceita = new Receita();
-
         novaReceita.setNome(dto.nome());
         novaReceita.setDescricao(dto.descricao());
         novaReceita.setCategoria(dto.categoria());
         novaReceita.setTempoPreparoMinutos(dto.tempoPreparo());
         novaReceita.setPorcoes(dto.porcoes());
 
-        if (dto.ingredientes() != null) {
-            for(IngredienteDTO ing: dto.ingredientes()){
-                // Cria um novo ingrediente com os dados do DTO
-                Ingrediente ingrediente = new Ingrediente(
-                        null,
-                        ing.nome(),
-                        ing.quantidade(),
-                        novaReceita
-                );
-                // Adiciona o novo ingrediente
+        if (dto.ingrediente() != null){
+            //Crie um novo ingrediente com os dados do DTO
+            for (IngredienteDTO ing: dto.ingrediente()){
+                Ingrediente ingrediente = new Ingrediente(null, ing.nome(), ing.quantidade(),novaReceita);
+
+                //Adiciona o novo Ingrediente
                 novaReceita.getIngredientes().add(ingrediente);
             }
         }
 
-        if (dto.modoPreparo() != null) {
-            for(String passo: dto.modoPreparo()){
+        if (dto.modoPreparo() != null){
+            for (String passo:dto.modoPreparo()){
                 ModoPreparo modoPreparo = new ModoPreparo(null, passo, novaReceita);
                 novaReceita.getModoPreparo().add(modoPreparo);
             }
         }
 
         Receita rec = receitaRepository.save(novaReceita);
-
         return ReceitaMapper.toResponseDTO(rec);
     }
 
-    public ReceitaResponseDTO buscarPorId(Long id) {
-        Receita rec = receitaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+    public ReceitaResponseDTO buscarPorId(Long id){
 
+        Receita rec = receitaRepository.findById(id).orElseThrow(() -> new RuntimeException("Receita não encontrada"));
         return ReceitaMapper.toResponseDTO(rec);
+
     }
 
-    public List<ReceitaResponseDTO> listar() {
-        return receitaRepository.findAll()
-                .stream()
-                .map((receita) -> ReceitaMapper.toResponseDTO(receita))
-                .toList();
+    public List<ReceitaResponseDTO> listar(){
+        return receitaRepository.findAll().stream().map(receita -> ReceitaMapper.toResponseDTO(receita)).toList();
     }
 }
